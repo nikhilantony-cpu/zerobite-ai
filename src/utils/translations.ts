@@ -15,7 +15,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     eco_points: "Eco Points",
 
     // Student Portal
-    student_hero_title: "Turn campus food waste into affordable meals",
+    student_hero_title: "Turn campus surplus food into affordable meals",
     student_hero_subtitle: "Save up to 70% on premium cafeteria meals, earn Eco Points, and protect our planet.",
     search_placeholder: "Search biryani, thali, bakery, sandwiches...",
     filter_all: "All Food",
