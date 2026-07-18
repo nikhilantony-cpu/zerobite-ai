@@ -54,6 +54,9 @@ function MainAppContent() {
         <p className="max-w-md mx-auto leading-relaxed">
           Building affordable student dining solutions and empowering campus cafeterias to completely eradicate surplus food waste.
         </p>
+        <p className="text-slate-400 font-medium mt-1">
+          Owners : Nikhil V A & Mrinalini M Nair
+        </p>
       </footer>
     </div>
   );

@@ -147,7 +147,7 @@ export function Navbar() {
             </div>
 
             {/* Notifications Toggle */}
-            <div className="relative">
+            <div className="static sm:relative">
               <button
                 onClick={() => {
                   setShowNotifications((prev) => !prev);
@@ -165,7 +165,7 @@ export function Navbar() {
 
               {/* Notification Popup Drawer (Responsive Width) */}
               {showNotifications && (
-                <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-96 bg-white rounded-3xl shadow-2xl border border-slate-100 p-4 z-50 animate-in fade-in slide-in-from-top-4">
+                <div className="absolute right-4 left-4 sm:right-0 sm:left-auto mt-2 sm:w-96 bg-white rounded-3xl shadow-2xl border border-slate-100 p-4 z-50 animate-in fade-in slide-in-from-top-4">
                   <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                     <h3 className="font-black text-sm text-slate-900 flex items-center gap-2">
                       <Bell className="w-4 h-4 text-green-700" /> Platform Live Notifications
@@ -195,7 +195,7 @@ export function Navbar() {
             </div>
 
             {/* Profile / Auth Button */}
-            <div className="relative">
+            <div className="static sm:relative">
               <button
                 onClick={() => {
                   setShowAuthModal((prev) => !prev);
@@ -215,7 +215,7 @@ export function Navbar() {
 
               {/* Auth Popup Drawer (Responsive Width) */}
               {showAuthModal && (
-                <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-96 bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 z-50 animate-in fade-in slide-in-from-top-4">
+                <div className="absolute right-4 left-4 sm:right-0 sm:left-auto mt-2 sm:w-96 bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 z-50 animate-in fade-in slide-in-from-top-4">
                   {isLoggedIn ? (
                     <div className="space-y-4">
                       <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
