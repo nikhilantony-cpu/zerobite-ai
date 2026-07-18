@@ -28,7 +28,9 @@ export function Navbar() {
     viewMode,
     setViewMode,
     studentWallet,
+    setStudentWallet,
     studentEcoPoints,
+    setStudentEcoPoints,
     pushNotifications,
   } = useApp();
 
@@ -129,7 +131,7 @@ export function Navbar() {
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value as Language)}
-                  className="appearance-none bg-green-50 hover:bg-green-100/80 text-green-900 font-bold text-xs py-2 pl-3 pr-7 rounded-xl border border-green-200/80 cursor-pointer focus:outline-hidden transition"
+                  className="appearance-none bg-green-50 hover:bg-green-100/80 text-green-900 font-bold text-base sm:text-xs py-2 pl-3 pr-7 rounded-xl border border-green-200/80 cursor-pointer focus:outline-hidden transition"
                 >
                   <option value="en">English</option>
                   <option value="ml">മലയാളം (ML)</option>
@@ -241,6 +243,8 @@ export function Navbar() {
                             setName("");
                             setEmail("");
                             setPassword("");
+                            setStudentWallet(0.0);
+                            setStudentEcoPoints(0);
                             setShowAuthModal(false);
                             alert("Successfully logged out from ZeroBite!");
                           }}
@@ -271,11 +275,29 @@ export function Navbar() {
                             return;
                           }
                           setIsLoggedIn(true);
+
+                          const emailLower = email.toLowerCase();
+                          if (emailLower.includes("arjun") || emailLower === "arjun@univ.edu") {
+                            setStudentWallet(650.0);
+                            setStudentEcoPoints(340);
+                            if (!name) setName("Arjun Krishna");
+                            setRole("STUDENT");
+                          } else if (emailLower.includes("priya") || emailLower === "priya@univ.edu") {
+                            setStudentWallet(1200.0);
+                            setStudentEcoPoints(520);
+                            if (!name) setName("Priya Sharma");
+                            setRole("STUDENT");
+                          } else {
+                            setStudentWallet(0.0);
+                            setStudentEcoPoints(0);
+                            if (!name) setName(email.split("@")[0]);
+                          }
+
                           setShowAuthModal(false);
                           alert(
                             authType === "login"
-                              ? `Welcome back to ZeroBite, ${name || email}!`
-                              : `Registration successful! Welcome to ZeroBite, ${name}!`
+                              ? `Welcome back to ZeroBite, ${name || email.split("@")[0]}!`
+                              : `Registration successful! Welcome to ZeroBite, ${name || email.split("@")[0]}!`
                           );
                         }}
                         className="space-y-3 text-left"
@@ -291,7 +313,7 @@ export function Navbar() {
                               placeholder="e.g. Anil Kumar"
                               value={name}
                               onChange={(e) => setName(e.target.value)}
-                              className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-green-600 focus:outline-hidden transition"
+                              className="w-full text-base sm:text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-green-600 focus:outline-hidden transition"
                             />
                           </div>
                         )}
@@ -305,7 +327,7 @@ export function Navbar() {
                             placeholder="user@university.edu"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-green-600 focus:outline-hidden transition"
+                            className="w-full text-base sm:text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-green-600 focus:outline-hidden transition"
                           />
                         </div>
                         <div>
@@ -318,7 +340,7 @@ export function Navbar() {
                             placeholder="••••••••"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-green-600 focus:outline-hidden transition"
+                            className="w-full text-base sm:text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-green-600 focus:outline-hidden transition"
                           />
                         </div>
 
@@ -403,7 +425,7 @@ export function Navbar() {
                   <select
                     value={language}
                     onChange={(e) => setLanguage(e.target.value as Language)}
-                    className="w-full appearance-none bg-white text-green-950 font-bold text-xs py-2.5 px-3.5 rounded-xl border border-slate-200 cursor-pointer focus:outline-hidden transition"
+                    className="w-full appearance-none bg-white text-green-950 font-bold text-base sm:text-xs py-2.5 px-3.5 rounded-xl border border-slate-200 cursor-pointer focus:outline-hidden transition"
                   >
                     <option value="en">English</option>
                     <option value="ml">മലയാളം (ML)</option>

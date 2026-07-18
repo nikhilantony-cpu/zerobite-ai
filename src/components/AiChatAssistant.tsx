@@ -254,7 +254,7 @@ export function AiChatAssistant() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t(language, "chat_prompt")}
-              className="flex-1 bg-slate-100 border border-slate-200 px-4 py-3 rounded-2xl text-xs font-medium text-slate-900 focus:bg-white focus:outline-hidden focus:border-green-700 transition"
+              className="flex-1 bg-slate-100 border border-slate-200 px-4 py-3 rounded-2xl text-base sm:text-xs font-medium text-slate-900 focus:bg-white focus:outline-hidden focus:border-green-700 transition"
             />
             <button
               type="submit"

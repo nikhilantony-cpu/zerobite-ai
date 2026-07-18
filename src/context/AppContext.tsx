@@ -114,7 +114,9 @@ interface AppContextType {
   setViewMode: (mode: ViewMode) => void;
 
   studentWallet: number;
+  setStudentWallet: React.Dispatch<React.SetStateAction<number>>;
   studentEcoPoints: number;
+  setStudentEcoPoints: React.Dispatch<React.SetStateAction<number>>;
   meals: Meal[];
   orders: Order[];
   donations: Donation[];
@@ -482,12 +484,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         prev.map((v) =>
           v.id === order.vendorId
             ? {
-                ...v,
-                totalMealsSaved: v.totalMealsSaved + order.quantity,
-                wastePreventedKg: parseFloat((v.wastePreventedKg + order.quantity * 0.5).toFixed(2)),
-                revenueSaved: v.revenueSaved + order.totalPrice,
-                co2ReducedKg: parseFloat((v.co2ReducedKg + order.quantity * 1.25).toFixed(2)),
-              }
+              ...v,
+              totalMealsSaved: v.totalMealsSaved + order.quantity,
+              wastePreventedKg: parseFloat((v.wastePreventedKg + order.quantity * 0.5).toFixed(2)),
+              revenueSaved: v.revenueSaved + order.totalPrice,
+              co2ReducedKg: parseFloat((v.co2ReducedKg + order.quantity * 1.25).toFixed(2)),
+            }
             : v
         )
       );
@@ -618,7 +620,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         viewMode,
         setViewMode,
         studentWallet,
+        setStudentWallet,
         studentEcoPoints,
+        setStudentEcoPoints,
         meals,
         orders,
         donations,
