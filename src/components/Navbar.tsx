@@ -9,8 +9,6 @@ import {
   Wallet,
   Award,
   Bell,
-  Smartphone,
-  Monitor,
   User,
   Store,
   HeartHandshake,
@@ -55,8 +53,11 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-2">
           {/* Brand & Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center text-white shadow-md shadow-green-600/30">
+          <div
+            onClick={() => setViewMode("web")}
+            className="flex items-center gap-3 cursor-pointer select-none group"
+          >
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center text-white shadow-md shadow-green-600/30 group-hover:scale-105 transition-all duration-300">
               <Leaf className="w-6 h-6 animate-pulse" />
             </div>
             <div>
@@ -108,29 +109,17 @@ export function Navbar() {
                 <span>{studentEcoPoints} Pts</span>
               </div>
 
-              {/* View Mode Toggle: Web vs App Download Center */}
-              <div className="bg-slate-100 p-1 rounded-xl flex items-center border border-slate-200">
-                <button
-                  onClick={() => setViewMode("web")}
-                  title="Widescreen Web View"
-                  className={`p-1.5 rounded-lg transition-all ${viewMode === "web"
-                    ? "bg-white text-green-700 shadow-xs font-bold"
-                    : "text-slate-500 hover:text-slate-900"
-                    }`}
-                >
-                  <Monitor className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setViewMode("mobile")}
-                  title="Download Mobile App"
-                  className={`p-1.5 rounded-lg transition-all ${viewMode === "mobile"
-                    ? "bg-green-700 text-white shadow-xs font-bold"
-                    : "text-slate-500 hover:text-slate-900"
-                    }`}
-                >
-                  <Download className="w-4 h-4" />
-                </button>
-              </div>
+              {/* View Mode Toggle: Download Mobile App Center */}
+              <button
+                onClick={() => setViewMode(viewMode === "mobile" ? "web" : "mobile")}
+                title={viewMode === "mobile" ? "Back to Dashboard" : "Download Mobile App"}
+                className={`p-2 rounded-xl transition-all border shrink-0 cursor-pointer ${viewMode === "mobile"
+                    ? "bg-green-700 text-white border-green-800 shadow-xs font-bold"
+                    : "bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200"
+                  }`}
+              >
+                <Download className="w-4 h-4" />
+              </button>
 
               {/* Language Selector */}
               <div className="relative">
@@ -422,24 +411,20 @@ export function Navbar() {
               </div>
 
               {/* View Mode Toggle */}
-              <div className="space-y-1">
-                <label className="text-[9px] font-black text-slate-500 uppercase tracking-wider block">App Version</label>
-                <div className="bg-slate-100 p-0.5 rounded-xl flex items-center border border-slate-200">
-                  <button
-                    onClick={() => setViewMode("web")}
-                    className={`flex-1 flex justify-center items-center gap-1 py-1.5 rounded-lg text-[10px] font-black transition ${viewMode === "web" ? "bg-white text-green-700 shadow-2xs" : "text-slate-500"
-                      }`}
-                  >
-                    <Monitor className="w-3 h-3" /> Web
-                  </button>
-                  <button
-                    onClick={() => setViewMode("mobile")}
-                    className={`flex-1 flex justify-center items-center gap-1 py-1.5 rounded-lg text-[10px] font-black transition ${viewMode === "mobile" ? "bg-green-700 text-white shadow-2xs" : "text-slate-500"
-                      }`}
-                  >
-                    <Download className="w-3 h-3" /> App Download
-                  </button>
-                </div>
+              <div className="pt-1">
+                <button
+                  onClick={() => {
+                    setViewMode(viewMode === "mobile" ? "web" : "mobile");
+                    setShowAuthModal(false);
+                  }}
+                  className={`w-full flex justify-center items-center gap-1.5 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider transition border cursor-pointer ${viewMode === "mobile"
+                      ? "bg-slate-900 text-white hover:bg-slate-950 border-slate-950 shadow-xs"
+                      : "bg-green-50 hover:bg-green-100 text-green-850 border-green-200/50 shadow-2xs"
+                    }`}
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>{viewMode === "mobile" ? "Switch to Dashboard" : "Download Mobile App"}</span>
+                </button>
               </div>
             </div>
 
