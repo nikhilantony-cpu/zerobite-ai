@@ -373,8 +373,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
   const [viewMode, setViewMode] = useState<ViewMode>("web");
 
-  const [studentWallet, setStudentWallet] = useState<number>(650.0);
-  const [studentEcoPoints, setStudentEcoPoints] = useState<number>(340);
+  const [studentWallet, setStudentWallet] = useState<number>(0.0);
+  const [studentEcoPoints, setStudentEcoPoints] = useState<number>(0);
   const [meals, setMeals] = useState<Meal[]>(FALLBACK_MEALS);
   const [orders, setOrders] = useState<Order[]>(FALLBACK_ORDERS);
   const [donations, setDonations] = useState<Donation[]>(FALLBACK_DONATIONS);
