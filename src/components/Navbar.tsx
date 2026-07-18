@@ -107,7 +107,7 @@ export function Navbar() {
                 <span>{studentEcoPoints} Pts</span>
               </div>
 
-              {/* View Mode Toggle: Web vs Phone Simulator */}
+              {/* View Mode Toggle: Web vs App Download Center */}
               <div className="bg-slate-100 p-1 rounded-xl flex items-center border border-slate-200">
                 <button
                   onClick={() => setViewMode("web")}
@@ -121,7 +121,7 @@ export function Navbar() {
                 </button>
                 <button
                   onClick={() => setViewMode("mobile")}
-                  title="Interactive Flutter Phone View"
+                  title="Download Mobile App"
                   className={`p-1.5 rounded-lg transition-all ${viewMode === "mobile"
                     ? "bg-green-700 text-white shadow-xs font-bold"
                     : "text-slate-500 hover:text-slate-900"
@@ -422,7 +422,7 @@ export function Navbar() {
 
               {/* View Mode Toggle */}
               <div className="space-y-1">
-                <label className="text-[9px] font-black text-slate-500 uppercase tracking-wider block">Simulator Mode</label>
+                <label className="text-[9px] font-black text-slate-500 uppercase tracking-wider block">App Version</label>
                 <div className="bg-slate-100 p-0.5 rounded-xl flex items-center border border-slate-200">
                   <button
                     onClick={() => setViewMode("web")}
@@ -436,7 +436,7 @@ export function Navbar() {
                     className={`flex-1 flex justify-center items-center gap-1 py-1.5 rounded-lg text-[10px] font-black transition ${viewMode === "mobile" ? "bg-green-700 text-white shadow-2xs" : "text-slate-500"
                       }`}
                   >
-                    <Smartphone className="w-3 h-3" /> Phone
+                    <Smartphone className="w-3 h-3" /> App Download
                   </button>
                 </div>
               </div>
