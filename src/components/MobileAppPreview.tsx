@@ -100,11 +100,11 @@ export function MobileAppPreview() {
       <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-green-950 p-6 sm:p-8 rounded-3xl text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-emerald-500/30">
         <div>
           <span className="bg-green-500 text-black font-mono font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider">
-            📱 Flutter Mobile App Simulator (Android & iOS)
+            📱 Mobile App Simulator
           </span>
           <h2 className="text-2xl sm:text-3xl font-black mt-2 tracking-tight">ZeroBite Mobile Experience</h2>
           <p className="text-xs text-slate-300 mt-1 max-w-xl">
-            This mode simulates our exact native Dart/Flutter mobile compilation built with Material 3 UI. The application fully adapts to dark/light theme, offline capabilities, and touchless barcode scanning.
+            This mode simulates our exact native mobile app experience. The application fully adapts to dark/light theme, offline capabilities, and touchless barcode scanning.
           </p>
         </div>
 
