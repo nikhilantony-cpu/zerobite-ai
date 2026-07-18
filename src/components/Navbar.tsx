@@ -114,8 +114,8 @@ export function Navbar() {
                 onClick={() => setViewMode(viewMode === "mobile" ? "web" : "mobile")}
                 title={viewMode === "mobile" ? "Back to Dashboard" : "Download Mobile App"}
                 className={`p-2 rounded-xl transition-all border shrink-0 cursor-pointer ${viewMode === "mobile"
-                    ? "bg-green-700 text-white border-green-800 shadow-xs font-bold"
-                    : "bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200"
+                  ? "bg-green-700 text-white border-green-800 shadow-xs font-bold"
+                  : "bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200"
                   }`}
               >
                 <Download className="w-4 h-4" />
@@ -392,7 +392,7 @@ export function Navbar() {
             </div>
 
             {/* Language & View Mode Controls */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 items-end">
               {/* Language Box */}
               <div className="space-y-1">
                 <label className="text-[9px] font-black text-slate-500 uppercase tracking-wider block">Language</label>
@@ -400,30 +400,31 @@ export function Navbar() {
                   <select
                     value={language}
                     onChange={(e) => setLanguage(e.target.value as Language)}
-                    className="w-full appearance-none bg-white text-green-950 font-bold text-xs py-2 px-3 rounded-xl border border-slate-200 cursor-pointer focus:outline-hidden transition"
+                    className="w-full appearance-none bg-white text-green-950 font-bold text-xs py-2.5 px-3.5 rounded-xl border border-slate-200 cursor-pointer focus:outline-hidden transition"
                   >
                     <option value="en">English</option>
                     <option value="ml">മലയാളം (ML)</option>
                     <option value="hi">हिन्दी (HI)</option>
                   </select>
-                  <Globe className="absolute right-3 top-2.5 w-3.5 h-3.5 text-green-700 pointer-events-none" />
+                  <Globe className="absolute right-3 top-3 w-3.5 h-3.5 text-green-700 pointer-events-none" />
                 </div>
               </div>
 
               {/* View Mode Toggle */}
-              <div className="pt-1">
+              <div className="space-y-1">
+                <label className="text-[9px] font-black text-slate-500 uppercase tracking-wider block">App Version</label>
                 <button
                   onClick={() => {
                     setViewMode(viewMode === "mobile" ? "web" : "mobile");
-                    setShowAuthModal(false);
+                    setIsMobileMenuOpen(false);
                   }}
-                  className={`w-full flex justify-center items-center gap-1.5 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider transition border cursor-pointer ${viewMode === "mobile"
-                      ? "bg-slate-900 text-white hover:bg-slate-950 border-slate-950 shadow-xs"
-                      : "bg-green-50 hover:bg-green-100 text-green-850 border-green-200/50 shadow-2xs"
+                  className={`w-full flex justify-center items-center gap-1.5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition border cursor-pointer ${viewMode === "mobile"
+                    ? "bg-slate-900 text-white hover:bg-slate-950 border-slate-950 shadow-xs"
+                    : "bg-green-50 hover:bg-green-100 text-green-850 border-green-200/50 shadow-2xs"
                     }`}
                 >
                   <Download className="w-3.5 h-3.5" />
-                  <span>{viewMode === "mobile" ? "Switch to Dashboard" : "Download Mobile App"}</span>
+                  <span>{viewMode === "mobile" ? "Web Version" : "Get Mobile App"}</span>
                 </button>
               </div>
             </div>
