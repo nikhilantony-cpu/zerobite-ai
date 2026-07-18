@@ -54,7 +54,10 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16 gap-2">
           {/* Brand & Logo */}
           <div
-            onClick={() => setViewMode("web")}
+            onClick={() => {
+              setViewMode("web");
+              setRole("STUDENT");
+            }}
             className="flex items-center gap-3 cursor-pointer select-none group"
           >
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center text-white shadow-md shadow-green-600/30 group-hover:scale-105 transition-all duration-300">
