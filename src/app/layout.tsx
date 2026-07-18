@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ZeroBite | AI Food Waste Management & Affordable Meals",
-  description: "AI-powered platform helping college cafeterias, messes, and bakeries reduce food waste by offering discounted meals and donating to NGOs.",
+  title: "ZeroBite | AI Surplus Food Management & Affordable Meals",
+  description: "AI-powered platform helping college cafeterias, messes, and bakeries reduce surplus food by offering discounted meals and donating to NGOs.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
