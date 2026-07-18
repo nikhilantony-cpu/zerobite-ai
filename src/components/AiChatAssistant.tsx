@@ -150,7 +150,7 @@ export function AiChatAssistant() {
 
       {/* Chat Window Popup Modal */}
       {isOpen && (
-        <div className="fixed right-4 bottom-4 z-50 w-full sm:w-[420px] h-[520px] max-h-[90vh] bg-white rounded-3xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-6">
+        <div className="fixed left-4 right-4 bottom-4 sm:left-auto sm:right-6 sm:bottom-6 z-50 sm:w-[420px] h-[520px] max-h-[90vh] bg-white rounded-3xl shadow-2xl border border-slate-205 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-6">
           {/* Header */}
           <div className="bg-gradient-to-r from-green-800 to-emerald-900 p-5 text-white flex items-center justify-between shadow-md">
             <div className="flex items-center gap-3">
@@ -223,8 +223,8 @@ export function AiChatAssistant() {
                 )}
                 <div
                   className={`p-4 rounded-3xl max-w-[82%] text-xs leading-relaxed font-medium shadow-xs ${m.sender === "user"
-                      ? "bg-green-700 text-white rounded-br-xs font-bold"
-                      : "bg-white text-slate-800 border border-slate-205 rounded-bl-xs"
+                    ? "bg-green-700 text-white rounded-br-xs font-bold"
+                    : "bg-white text-slate-800 border border-slate-205 rounded-bl-xs"
                     }`}
                 >
                   <p>{m.text}</p>
