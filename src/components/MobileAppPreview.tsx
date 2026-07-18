@@ -108,21 +108,27 @@ export function MobileAppPreview() {
           </p>
         </div>
 
-        {/* Device toggles */}
-        <div className="flex items-center gap-3 bg-white/10 p-2 rounded-2xl border border-white/10 shrink-0">
+        {/* Device toggles & Download Options */}
+        <div className="flex flex-wrap items-center gap-3 bg-white/10 p-2 rounded-2xl border border-white/10 shrink-0">
           <button
-            onClick={() => setDeviceOs("ios")}
-            className={`px-4 py-2 rounded-xl text-xs font-black transition ${deviceOs === "ios" ? "bg-white text-slate-950 shadow-md" : "text-slate-400 hover:text-white"
+            onClick={() => {
+              setDeviceOs("ios");
+              alert("📥 Downloading ZeroBite iOS App (.ipa installation package)...");
+            }}
+            className={`px-4 py-2 rounded-xl text-xs font-black transition ${deviceOs === "ios" ? "bg-white text-slate-950 shadow-md" : "text-slate-300 hover:text-white"
               }`}
           >
-            🍎 iOS iPhone
+            🍏 Download iOS (.ipa)
           </button>
           <button
-            onClick={() => setDeviceOs("android")}
-            className={`px-4 py-2 rounded-xl text-xs font-black transition ${deviceOs === "android" ? "bg-green-700 text-white shadow-md" : "text-slate-400 hover:text-white"
+            onClick={() => {
+              setDeviceOs("android");
+              alert("📥 Downloading ZeroBite Android App (.apk installation package)...");
+            }}
+            className={`px-4 py-2 rounded-xl text-xs font-black transition ${deviceOs === "android" ? "bg-green-700 text-white shadow-md" : "text-slate-350 hover:text-white"
               }`}
           >
-            🤖 Android Pixel
+            🤖 Download Android (.apk)
           </button>
           <button
             onClick={() => setIsOffline((prev) => !prev)}
