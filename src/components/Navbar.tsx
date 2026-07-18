@@ -18,6 +18,7 @@ import {
   CheckCircle2,
   Menu,
   X,
+  Download,
 } from "lucide-react";
 
 export function Navbar() {
@@ -127,7 +128,7 @@ export function Navbar() {
                     : "text-slate-500 hover:text-slate-900"
                     }`}
                 >
-                  <Smartphone className="w-4 h-4" />
+                  <Download className="w-4 h-4" />
                 </button>
               </div>
 
@@ -436,7 +437,7 @@ export function Navbar() {
                     className={`flex-1 flex justify-center items-center gap-1 py-1.5 rounded-lg text-[10px] font-black transition ${viewMode === "mobile" ? "bg-green-700 text-white shadow-2xs" : "text-slate-500"
                       }`}
                   >
-                    <Smartphone className="w-3 h-3" /> App Download
+                    <Download className="w-3 h-3" /> App Download
                   </button>
                 </div>
               </div>
