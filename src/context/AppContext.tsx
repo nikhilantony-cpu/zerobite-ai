@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { Language } from "@/utils/translations";
+import { CheckCircle2, AlertTriangle, Info, X } from "lucide-react";
 
 export type UserRole = "STUDENT" | "VENDOR" | "NGO" | "ADMIN";
 export type ViewMode = "web" | "mobile";
@@ -105,6 +106,12 @@ export interface ChatMessage {
   timestamp?: string | Date;
 }
 
+export interface ToastMessage {
+  id: number;
+  message: string;
+  type: "success" | "error" | "info" | "warning";
+}
+
 interface AppContextType {
   role: UserRole;
   setRole: (role: UserRole) => void;
@@ -135,6 +142,7 @@ interface AppContextType {
   createTicket: (subject: string, message: string) => void;
   sendChatMessage: (msg: string, receiverId: number) => void;
   broadcastPushNotification: (title: string, message: string) => void;
+  showToast: (message: string, type?: ToastMessage["type"]) => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -375,6 +383,66 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const [studentWallet, setStudentWallet] = useState<number>(0.0);
   const [studentEcoPoints, setStudentEcoPoints] = useState<number>(0);
+
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedRole = localStorage.getItem("zb_role");
+      if (savedRole) setRole(savedRole as UserRole);
+
+      const savedWallet = localStorage.getItem("zb_studentWallet");
+      if (savedWallet) setStudentWallet(parseFloat(savedWallet));
+
+      const savedEcoPoints = localStorage.getItem("zb_studentEcoPoints");
+      if (savedEcoPoints) setStudentEcoPoints(parseInt(savedEcoPoints));
+
+      const savedLanguage = localStorage.getItem("zb_language");
+      if (savedLanguage) setLanguage(savedLanguage as Language);
+
+      const savedViewMode = localStorage.getItem("zb_viewMode");
+      if (savedViewMode) setViewMode(savedViewMode as ViewMode);
+
+      setIsLoaded(true);
+    }
+  }, []);
+
+  // Save to localStorage when states change, only after rehydration is complete
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (typeof window !== "undefined") {
+      localStorage.setItem("zb_role", role);
+    }
+  }, [role, isLoaded]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (typeof window !== "undefined") {
+      localStorage.setItem("zb_studentWallet", studentWallet.toString());
+    }
+  }, [studentWallet, isLoaded]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (typeof window !== "undefined") {
+      localStorage.setItem("zb_studentEcoPoints", studentEcoPoints.toString());
+    }
+  }, [studentEcoPoints, isLoaded]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (typeof window !== "undefined") {
+      localStorage.setItem("zb_language", language);
+    }
+  }, [language, isLoaded]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (typeof window !== "undefined") {
+      localStorage.setItem("zb_viewMode", viewMode);
+    }
+  }, [viewMode, isLoaded]);
   const [meals, setMeals] = useState<Meal[]>(FALLBACK_MEALS);
   const [orders, setOrders] = useState<Order[]>(FALLBACK_ORDERS);
   const [donations, setDonations] = useState<Donation[]>(FALLBACK_DONATIONS);
@@ -393,6 +461,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     { title: "🌱 Save 60% on Biryani Today!", message: "Campus Central Canteen just listed 8 surplus aromatic dum biryanis.", date: "10m ago" },
     { title: "🎁 Eco Points Reward Alert", message: "You earned 50 Eco Points this week for reducing 2.5kg of CO₂!", date: "1d ago" },
   ]);
+
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
+
+  const showToast = (message: string, type: ToastMessage["type"] = "info") => {
+    const id = Date.now() + Math.random();
+    setToasts((prev) => [...prev, { id, message, type }]);
+
+    // Automatically remove after 4 seconds
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 4000);
+  };
 
   // Fetch live sync from backend
   useEffect(() => {
@@ -415,12 +495,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const reserveMeal = (meal: Meal, quantity: number, paymentMethod: string) => {
     const totalCost = meal.discountPrice * quantity;
     if (paymentMethod === "WALLET" && studentWallet < totalCost) {
-      alert("Insufficient balance in your student wallet. Please use Razorpay or Stripe online options.");
+      showToast("Insufficient balance in your student wallet. Please use Razorpay or Stripe online options.", "error");
       return false;
     }
 
     if (meal.availableQuantity < quantity) {
-      alert("Only " + meal.availableQuantity + " portions available.");
+      showToast("Only " + meal.availableQuantity + " portions available.", "warning");
       return false;
     }
 
@@ -494,7 +574,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         )
       );
 
-      alert("🎉 QR Code Verified Successfully! Order marked as Picked Up. Impact logged in live blockchain tracker.");
+      showToast("🎉 QR Code Verified Successfully! Order marked as Picked Up. Impact logged in live blockchain tracker.", "success");
       return true;
     }
 
@@ -503,11 +583,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (donationIndex !== -1) {
       const don = donations[donationIndex];
       setDonations((prev) => prev.map((d, idx) => (idx === donationIndex ? { ...d, status: "PICKED_UP" } : d)));
-      alert("🚛 Donation QR Verified! Food successfully transferred to NGO community vehicle.");
+      showToast("🚛 Donation QR Verified! Food successfully transferred to NGO community vehicle.", "success");
       return true;
     }
 
-    alert("❌ Invalid or Already Picked Up QR Code: " + cleanQr);
+    showToast("❌ Invalid or Already Picked Up QR Code: " + cleanQr, "error");
     return false;
   };
 
@@ -531,7 +611,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setDonations((prev) => [newDon, ...prev]);
     setMeals((prev) => prev.map((m) => (m.id === meal.id ? { ...m, availableQuantity: 0, status: "ACCEPTED_BY_NGO" } : m)));
 
-    alert("🤝 Donation Accepted! Driver route activated. Please present your verification QR " + randomDonCode + " upon pickup.");
+    showToast("🤝 Donation Accepted! Driver route activated. Please present your verification QR " + randomDonCode + " upon pickup.", "success");
     return true;
   };
 
@@ -558,17 +638,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       ...prev,
     ]);
 
-    alert("✅ New Surplus Listing successfully posted & synced to cloud!");
+    showToast("✅ New Surplus Listing successfully posted & synced to cloud!", "success");
   };
 
   // Redeem Coupon
   const redeemCoupon = (coupon: Coupon) => {
     if (studentEcoPoints < coupon.pointsRequired) {
-      alert("❌ Insufficient Eco Points! You need " + coupon.pointsRequired + " points.");
+      showToast("❌ Insufficient Eco Points! You need " + coupon.pointsRequired + " points.", "error");
       return false;
     }
     setStudentEcoPoints((prev) => prev - coupon.pointsRequired);
-    alert("🎉 Coupon " + coupon.code + " unlocked! Added 25% automatic voucher to your student checkout.");
+    showToast("🎉 Coupon " + coupon.code + " unlocked! Added 25% automatic voucher to your student checkout.", "success");
     return true;
   };
 
@@ -582,7 +662,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       status: "OPEN",
     };
     setTickets((prev) => [t, ...prev]);
-    alert("🎫 Support Ticket Submitted! Campus Admin has been pinged.");
+    showToast("🎫 Support Ticket Submitted! Campus Admin has been pinged.", "success");
   };
 
   // Chat message
@@ -607,7 +687,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       },
       ...prev,
     ]);
-    alert("📡 Broadcast Push Notification sent to all connected Flutter Android & iOS instances!");
+    showToast("📡 Broadcast Push Notification sent to all connected Flutter Android & iOS instances!", "info");
   };
 
   return (
@@ -640,10 +720,62 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         createTicket,
         sendChatMessage,
         broadcastPushNotification,
+        showToast,
       }}
     >
       {children}
+      <ToastContainer toasts={toasts} onClose={(id) => setToasts((prev) => prev.filter((t) => t.id !== id))} />
     </AppContext.Provider>
+  );
+}
+
+function ToastContainer({ toasts, onClose }: { toasts: ToastMessage[]; onClose: (id: number) => void }) {
+  if (toasts.length === 0) return null;
+
+  return (
+    <div className="fixed top-20 right-4 z-[9999] flex flex-col gap-3 max-w-sm w-full pointer-events-none px-4 sm:px-0">
+      {toasts.map((toast) => {
+        let icon = <Info className="w-5 h-5 text-sky-600 shrink-0" />;
+        let borderClass = "border-sky-200";
+        let bgClass = "bg-sky-50";
+        let textClass = "text-sky-950";
+
+        if (toast.type === "success") {
+          icon = <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />;
+          borderClass = "border-emerald-250 border-l-4 border-l-emerald-500";
+          bgClass = "bg-emerald-50/95";
+          textClass = "text-emerald-950";
+        } else if (toast.type === "error") {
+          icon = <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0" />;
+          borderClass = "border-rose-250 border-l-4 border-l-rose-500";
+          bgClass = "bg-rose-50/95";
+          textClass = "text-rose-955";
+        } else if (toast.type === "warning") {
+          icon = <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0" />;
+          borderClass = "border-amber-250 border-l-4 border-l-amber-500";
+          bgClass = "bg-amber-50/95";
+          textClass = "text-amber-955";
+        }
+
+        return (
+          <div
+            key={toast.id}
+            className={`pointer-events-auto flex items-start gap-4 p-4 rounded-2xl border ${borderClass} ${bgClass} ${textClass} shadow-xl backdrop-blur-md animate-in fade-in slide-in-from-right-4 duration-300 relative group font-sans`}
+          >
+            <div className="p-0.5 mt-0.5">{icon}</div>
+            <div className="flex-1 pr-6 text-xs font-bold leading-relaxed">
+              {toast.message}
+            </div>
+            <button
+              onClick={() => onClose(toast.id)}
+              className="absolute top-3.5 right-3.5 text-slate-400 hover:text-slate-650 p-0.5 rounded-lg hover:bg-slate-200/50 transition cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 

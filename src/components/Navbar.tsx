@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useApp, UserRole, ViewMode } from "@/context/AppContext";
 import { Language, t } from "@/utils/translations";
 import {
@@ -32,6 +32,7 @@ export function Navbar() {
     studentEcoPoints,
     setStudentEcoPoints,
     pushNotifications,
+    showToast,
   } = useApp();
 
   const [showNotifications, setShowNotifications] = useState(false);
@@ -42,6 +43,31 @@ export function Navbar() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedIsLoggedIn = localStorage.getItem("zb_isLoggedIn") === "true";
+      if (savedIsLoggedIn) {
+        setIsLoggedIn(true);
+        setName(localStorage.getItem("zb_name") || "");
+        setEmail(localStorage.getItem("zb_email") || "");
+      }
+      setIsLoaded(true);
+    }
+  }, []);
+
+  // Save to localStorage when states change
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (typeof window !== "undefined") {
+      localStorage.setItem("zb_isLoggedIn", isLoggedIn.toString());
+      localStorage.setItem("zb_name", name);
+      localStorage.setItem("zb_email", email);
+    }
+  }, [isLoggedIn, name, email, isLoaded]);
 
   const roles: { id: UserRole; nameKey: string; icon: any }[] = [
     { id: "STUDENT", nameKey: "role_student", icon: User },
@@ -83,7 +109,10 @@ export function Navbar() {
               return (
                 <button
                   key={r.id}
-                  onClick={() => setRole(r.id)}
+                  onClick={() => {
+                    setRole(r.id);
+                    setViewMode("web");
+                  }}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 ${isSelected
                     ? "bg-green-700 text-white shadow-md shadow-green-800/20 scale-102"
                     : "text-green-900/70 hover:text-green-900 hover:bg-green-100/50"
@@ -245,8 +274,9 @@ export function Navbar() {
                             setPassword("");
                             setStudentWallet(0.0);
                             setStudentEcoPoints(0);
+                            setRole("STUDENT");
                             setShowAuthModal(false);
-                            alert("Successfully logged out from ZeroBite!");
+                            showToast("Successfully logged out from ZeroBite!", "success");
                           }}
                           className="w-full bg-rose-50 hover:bg-rose-100 text-rose-700 font-extrabold text-xs py-2.5 rounded-xl transition border border-rose-150 cursor-pointer"
                         >
@@ -271,7 +301,7 @@ export function Navbar() {
                         onSubmit={(e) => {
                           e.preventDefault();
                           if (!email || !password || (authType === "signup" && !name)) {
-                            alert("Please fill in all required fields!");
+                            showToast("Please fill in all required fields!", "warning");
                             return;
                           }
                           setIsLoggedIn(true);
@@ -294,10 +324,11 @@ export function Navbar() {
                           }
 
                           setShowAuthModal(false);
-                          alert(
+                          showToast(
                             authType === "login"
                               ? `Welcome back to ZeroBite, ${name || email.split("@")[0]}!`
-                              : `Registration successful! Welcome to ZeroBite, ${name || email.split("@")[0]}!`
+                              : `Registration successful! Welcome to ZeroBite, ${name || email.split("@")[0]}!`,
+                            "success"
                           );
                         }}
                         className="space-y-3 text-left"
@@ -466,6 +497,7 @@ export function Navbar() {
                       key={r.id}
                       onClick={() => {
                         setRole(r.id);
+                        setViewMode("web");
                         setIsMobileMenuOpen(false);
                       }}
                       className={`flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-bold border transition ${isSelected

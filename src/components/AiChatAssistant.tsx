@@ -20,7 +20,7 @@ export function AiChatAssistant() {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: "bot",
-      text: "👋 Hi! I'm EcoBot, your ZeroBite AI Sustainability Assistant. Ask me to recommend surplus meals, give overnight food storage tips, or show prediction stats!",
+      text: "👋 Hello! I am your ZeroBite Food Master Companion & Advisor. Ask me anything about currently available food, surplus recommendations, shelf-life storage advice, or smart daily footfall predictions!",
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     },
   ]);
@@ -49,7 +49,44 @@ export function AiChatAssistant() {
       let botResponse = "";
       const lower = userMsg.toLowerCase();
 
-      if (lower.includes("biryani") || lower.includes("non veg") || lower.includes("chicken")) {
+      if (
+        lower === "hi" ||
+        lower.startsWith("hi ") ||
+        lower === "hello" ||
+        lower.startsWith("hello ") ||
+        lower === "hey" ||
+        lower.startsWith("hey ")
+      ) {
+        const availableMeals = meals.filter((m) => m.availableQuantity > 0);
+        let availableNotice = "";
+        if (availableMeals.length > 0) {
+          availableNotice = ` Currently we have **${availableMeals.length}** surplus meals available to rescue! Ask me *"what food is available?"* to see the full list.`;
+        } else {
+          availableNotice = " There are no new surplus items listed at the moment. Check back soon!";
+        }
+        botResponse = `👋 Hello! I am your ZeroBite Food Master Companion & Advisor.${availableNotice} How can I assist you with your campus dining or food saving today?`;
+      } else if (
+        lower.includes("available") ||
+        lower.includes("current") ||
+        lower.includes("menu") ||
+        lower.includes("food") ||
+        lower.includes("what is on") ||
+        lower.includes("anything")
+      ) {
+        const availableMeals = meals.filter((m) => m.availableQuantity > 0);
+        if (availableMeals.length > 0) {
+          const mealList = availableMeals
+            .map((m) => {
+              const vendor = vendors.find((v) => v.id === m.vendorId);
+              const vendorName = vendor ? vendor.cafeteriaName : "Cafeteria";
+              return `• **${m.name}** (${m.category}) - **₹${m.discountPrice}** (Original: ₹${m.originalPrice}) | *${m.availableQuantity}* portions remaining at *${vendorName}*`;
+            })
+            .join("\n");
+          botResponse = `🍳 Yes, as your Food Master Companion, here are the current surplus meals available to rescue:\n\n${mealList}\n\nI highly recommend checking them out on the student portal before they run out!`;
+        } else {
+          botResponse = "🍽️ No surplus meals are currently listed as available. Check back soon, or ask me for storage advice or tomorrow's footfall predictions!";
+        }
+      } else if (lower.includes("biryani") || lower.includes("non veg") || lower.includes("chicken")) {
         const biryani = meals.find((m) => m.name.toLowerCase().includes("biryani"));
         if (biryani && biryani.availableQuantity > 0) {
           botResponse = `🍲 Good news! Campus Central Canteen currently has ${biryani.availableQuantity} portions of ${biryani.name} listed at just ₹${biryani.discountPrice} (down from ₹${biryani.originalPrice}). Reserve it in the Student Portal!`;
@@ -122,7 +159,7 @@ export function AiChatAssistant() {
       case "STUDENT":
       default:
         return [
-          "Recommended Meals?",
+          "Any foods available currently?",
           "Tomorrow's Rain Prediction?",
           "Bakery Storage Tips",
           "How Eco Points Work?",
@@ -143,8 +180,8 @@ export function AiChatAssistant() {
           <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-amber-400 rounded-full border-2 border-white animate-ping" />
         </div>
         <div className="text-left hidden sm:block pr-2">
-          <div className="font-black text-xs uppercase tracking-wider text-green-200">AI Assistant</div>
-          <div className="font-bold text-sm">Ask EcoBot ⚡</div>
+          <div className="font-black text-xs uppercase tracking-wider text-green-200">AI Companion</div>
+          <div className="font-bold text-sm">Ask Food Advisor ⚡</div>
         </div>
       </button>
 
@@ -161,10 +198,10 @@ export function AiChatAssistant() {
                 <h4 className="font-black text-base flex items-center gap-1.5">
                   <span>{t(language, "ai_assistant")}</span>
                   <span className="bg-amber-400 text-slate-950 font-mono font-bold text-[10px] px-2 py-0.5 rounded-full">
-                    EcoBot
+                    Food Master
                   </span>
                 </h4>
-                <p className="text-[11px] text-green-200 font-medium">Platform TensorFlow AI & Storage Advisor</p>
+                <p className="text-[11px] text-green-200 font-medium">Your Culinary Advisor & Food Buddy</p>
               </div>
             </div>
 
@@ -175,7 +212,7 @@ export function AiChatAssistant() {
                     setMessages([
                       {
                         sender: "bot",
-                        text: "👋 Hi! I'm EcoBot, your ZeroBite AI Sustainability Assistant. Ask me to recommend surplus meals, give overnight food storage tips, or show prediction stats!",
+                        text: "👋 Hello! I am your ZeroBite Food Master Companion & Advisor. Ask me anything about currently available food, surplus recommendations, shelf-life storage advice, or smart daily footfall predictions!",
                         time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
                       },
                     ]);
@@ -241,7 +278,7 @@ export function AiChatAssistant() {
             {isTyping && (
               <div className="flex gap-3 items-center text-slate-400 text-xs font-bold pl-2">
                 <Bot className="w-4 h-4 text-green-700 animate-spin" />
-                <span>EcoBot is thinking...</span>
+                <span>Food Master is thinking...</span>
               </div>
             )}
             <div ref={messagesEndRef} />
