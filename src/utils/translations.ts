@@ -4,7 +4,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
   en: {
     // Navbar & Common
     app_name: "ZeroBite",
-    app_tagline: "AI Food Waste Management",
+    app_tagline: "AI Food Management",
     role_student: "Student",
     role_vendor: "Vendor (Cafeteria)",
     role_ngo: "NGO (Community)",
