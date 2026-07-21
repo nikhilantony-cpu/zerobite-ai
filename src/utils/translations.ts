@@ -69,6 +69,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     send: "Send",
     close: "Close",
     redeem_success: "Coupon applied successfully!",
+    ai_benefit_1: "Scan any food in seconds.",
+    ai_benefit_2: "Know what will expire next.",
+    ai_benefit_3: "Turn leftovers into meals.",
+    ai_benefit_4: "Reduce waste and save money.",
+    ai_benefit_5: "Get personalized food advice.",
+    ai_benefit_1_desc: "Instantly recognize surplus meals and details using QR codes.",
+    ai_benefit_2_desc: "Track shelf life and countdowns to prioritize early rescues.",
+    ai_benefit_3_desc: "Get custom culinary ideas and recipe tips to utilize extra food.",
+    ai_benefit_4_desc: "Get up to 70% off cafeteria food and save Eco Points.",
+    ai_benefit_5_desc: "Receive tailor-made preservation recommendations and storage tips.",
   },
   ml: {
     // Malayalam Translation
@@ -133,6 +143,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     send: "അയക്കുക",
     close: "അടയ്ക്കുക",
     redeem_success: "കൂപ്പൺ വിജയകരം!",
+    ai_benefit_1: "ഏത് ഭക്ഷണവും നിമിഷങ്ങൾക്കുള്ളിൽ സ്കാൻ ചെയ്യൂ.",
+    ai_benefit_2: "ഏതാണ് അടുത്തതായി കാലാവധി കഴിയുക എന്ന് മനസ്സിലാക്കൂ.",
+    ai_benefit_3: "ബാക്കി വന്ന ഭക്ഷണം രുചികരമായ വിഭവങ്ങളാക്കി മാറ്റൂ.",
+    ai_benefit_4: "ഭക്ഷണം പാഴാക്കുന്നത് കുറച്ച് പണം ലാഭിക്കൂ.",
+    ai_benefit_5: "നിങ്ങൾക്കായി മാത്രമുള്ള ഭക്ഷണ നിർദ്ദേശങ്ങൾ നേടൂ.",
+    ai_benefit_1_desc: "ക്യുആർ കോഡുകൾ ഉപയോഗിച്ച് ഭക്ഷണങ്ങൾ വേഗത്തിൽ കണ്ടെത്തൂ.",
+    ai_benefit_2_desc: "ഭക്ഷണങ്ങൾ കേടാകുന്നതിൻ്റെ വിവരങ്ങൾ അറിഞ്ഞു ഭക്ഷണം സംരക്ഷിക്കൂ.",
+    ai_benefit_3_desc: "ബാക്കിയുള്ള ഭക്ഷണസാധനങ്ങൾ ഉപയോഗിച്ച് റെസിപ്പികൾ തയ്യാറാക്കൂ.",
+    ai_benefit_4_desc: "ക്യാന്റീൻ ഭക്ഷണത്തിൽ 70% വരെ വിലക്കിഴിവ് നേടി പോയിന്റുകൾ ലാഭിക്കൂ.",
+    ai_benefit_5_desc: "ഭക്ഷണം സൂക്ഷിച്ചുവെക്കുന്നതിനുള്ള ശരിയായ ഉപദേശങ്ങൾ നേടൂ.",
   },
   hi: {
     // Hindi Translation
@@ -197,6 +217,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     send: "भेजें",
     close: "बंद करें",
     redeem_success: "कूपन सफलतापूर्वक लागू!",
+    ai_benefit_1: "किसी भी भोजन को सेकंडों में स्कैन करें।",
+    ai_benefit_2: "जानें कि आगे क्या समाप्त होने वाला है।",
+    ai_benefit_3: "बचे हुए खाने से नया भोजन तैयार करें।",
+    ai_benefit_4: "भोजन की बर्बादी कम करें और पैसा बचाएं।",
+    ai_benefit_5: "व्यक्तिगत भोजन संबंधी सलाह प्राप्त करें।",
+    ai_benefit_1_desc: "क्यूआर कोड का उपयोग करके अतिरिक्त भोजन की पहचान तुरंत करें।",
+    ai_benefit_2_desc: "भोजन समाप्त होने के समय को ट्रैक कर उसे पहले बचाएं।",
+    ai_benefit_3_desc: "बचे हुए भोजन को स्वादिष्ट व्यंजनों में बदलने के नुस्खे पाएं।",
+    ai_benefit_4_desc: "कैंटीन के भोजन पर 70% तक की छूट और इको पॉइंट बचाएं।",
+    ai_benefit_5_desc: "भोजन के भंडारण के लिए विशेष व्यक्तिगत सुझाव और दिशा-निर्देश प्राप्त करें।",
   }
 };
 

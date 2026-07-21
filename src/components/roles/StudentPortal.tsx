@@ -21,6 +21,7 @@ import {
   CreditCard,
   ShieldCheck,
   Navigation,
+  ChevronRight,
 } from "lucide-react";
 
 export function StudentPortal() {
@@ -128,6 +129,99 @@ export function StudentPortal() {
         </div>
       </div>
 
+      {/* ZeroBite AI Real Assistant Benefits Grid */}
+      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-green-100 shadow-md space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 className="text-xl font-black bg-gradient-to-r from-green-800 to-emerald-950 bg-clip-text text-transparent flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-green-700 animate-pulse" />
+              <span>Meet Your ZeroBite AI Food Advisor</span>
+            </h3>
+            <p className="text-xs text-slate-500 font-medium mt-1">
+              ZeroBite AI solving problems you actually face daily. Click any card to launch query!
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              const event = new CustomEvent("open-zero-bite-ai", { detail: { query: "" } });
+              window.dispatchEvent(event);
+            }}
+            className="bg-green-750 hover:bg-green-800 text-white font-black text-xs px-5 py-3 rounded-xl transition duration-350 shadow-md flex items-center gap-1.5 cursor-pointer self-start sm:self-center"
+          >
+            <span>Open Chat Assistant</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {[
+            {
+              title: t(language, "ai_benefit_1"),
+              desc: t(language, "ai_benefit_1_desc"),
+              icon: QrCode,
+              color: "bg-emerald-50/60 border-emerald-200 text-emerald-800 hover:bg-emerald-100/50 hover:border-emerald-300",
+              query: "How does food scanning work on ZeroBite?"
+            },
+            {
+              title: t(language, "ai_benefit_2"),
+              desc: t(language, "ai_benefit_2_desc"),
+              icon: Clock,
+              color: "bg-amber-50/60 border-amber-250 text-amber-800 hover:bg-amber-100/50 hover:border-amber-300",
+              query: "What food is expiring next or available?"
+            },
+            {
+              title: t(language, "ai_benefit_3"),
+              desc: t(language, "ai_benefit_3_desc"),
+              icon: ShoppingBag,
+              color: "bg-teal-50/60 border-teal-200 text-teal-800 hover:bg-teal-100/50 hover:border-teal-300",
+              query: "Can you help me turn leftovers into meals?"
+            },
+            {
+              title: t(language, "ai_benefit_4"),
+              desc: t(language, "ai_benefit_4_desc"),
+              icon: Wallet,
+              color: "bg-blue-50/60 border-blue-200 text-blue-800 hover:bg-blue-100/50 hover:border-blue-300",
+              query: "How does ZeroBite help reduce waste and save money?"
+            },
+            {
+              title: t(language, "ai_benefit_5"),
+              desc: t(language, "ai_benefit_5_desc"),
+              icon: Sparkles,
+              color: "bg-purple-50/60 border-purple-200 text-purple-800 hover:bg-purple-100/50 hover:border-purple-300",
+              query: "Give me personalized food advice or storage tips."
+            }
+          ].map((b, i) => {
+            const Icon = b.icon;
+            return (
+              <div
+                key={i}
+                onClick={() => {
+                  const event = new CustomEvent("open-zero-bite-ai", { detail: { query: b.query } });
+                  window.dispatchEvent(event);
+                }}
+                className={`p-5 border rounded-2.5xl cursor-pointer hover:scale-102 hover:shadow-xs transition-all duration-300 flex flex-col justify-between space-y-3 ${b.color}`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-xs border border-inherit">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <span className="text-[9px] uppercase font-mono font-bold tracking-wider opacity-60">
+                    ADVICE 💡
+                  </span>
+                </div>
+                <div className="space-y-1">
+                  <h4 className="font-extrabold text-xs text-slate-900 leading-snug">{b.title}</h4>
+                  <p className="text-[10px] text-slate-500 leading-relaxed font-normal">{b.desc}</p>
+                </div>
+                <span className="text-[10px] font-black underline hover:no-underline transition self-start flex items-center gap-0.5">
+                  Ask Advisor
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Tabs Row */}
       <div className="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl overflow-x-auto border border-slate-200">
         {[
@@ -142,9 +236,8 @@ export function StudentPortal() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center gap-2 px-5 py-3 rounded-xl font-black text-xs transition whitespace-nowrap ${
-                isActive ? "bg-white text-green-800 shadow-md scale-102" : "text-slate-600 hover:text-slate-900"
-              }`}
+              className={`flex items-center gap-2 px-5 py-3 rounded-xl font-black text-xs transition whitespace-nowrap ${isActive ? "bg-white text-green-800 shadow-md scale-102" : "text-slate-600 hover:text-slate-900"
+                }`}
             >
               <Icon className={`w-4 h-4 ${isActive ? "text-green-700" : ""}`} />
               <span>{tab.name}</span>
@@ -186,11 +279,10 @@ export function StudentPortal() {
                   <button
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.id)}
-                    className={`px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap transition ${
-                      selectedCategory === cat.id
-                        ? "bg-green-700 text-white shadow-md shadow-green-700/20"
-                        : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                    }`}
+                    className={`px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap transition ${selectedCategory === cat.id
+                      ? "bg-green-700 text-white shadow-md shadow-green-700/20"
+                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                      }`}
                   >
                     {cat.label}
                   </button>
@@ -243,9 +335,8 @@ export function StudentPortal() {
               return (
                 <div
                   key={meal.id}
-                  className={`bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between ${
-                    isSoldOut ? "opacity-60 grayscale hover:grayscale-0" : "hover:-translate-y-1"
-                  }`}
+                  className={`bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between ${isSoldOut ? "opacity-60 grayscale hover:grayscale-0" : "hover:-translate-y-1"
+                    }`}
                 >
                   <div className="relative h-52 overflow-hidden bg-slate-100">
                     <img
@@ -309,9 +400,8 @@ export function StudentPortal() {
                         <button
                           onClick={() => setSelectedMealForPay(meal)}
                           disabled={isSoldOut}
-                          className={`px-5 py-3 rounded-xl font-black text-xs transition duration-300 flex items-center gap-1.5 ${
-                            isSoldOut ? "bg-slate-300 text-slate-500 cursor-not-allowed" : "bg-green-700 hover:bg-green-800 text-white shadow-lg shadow-green-700/30"
-                          }`}
+                          className={`px-5 py-3 rounded-xl font-black text-xs transition duration-300 flex items-center gap-1.5 ${isSoldOut ? "bg-slate-300 text-slate-500 cursor-not-allowed" : "bg-green-700 hover:bg-green-800 text-white shadow-lg shadow-green-700/30"
+                            }`}
                         >
                           <QrCode className="w-4 h-4" />
                           <span>{isSoldOut ? t(language, "sold_out") : t(language, "reserve_btn")}</span>
@@ -368,9 +458,8 @@ export function StudentPortal() {
               return (
                 <div
                   key={ord.id}
-                  className={`bg-white rounded-3xl border ${
-                    isPickedUp ? "border-slate-200 bg-slate-50/50" : "border-green-300 shadow-xl shadow-green-700/10"
-                  } p-6 flex flex-col justify-between transition-all`}
+                  className={`bg-white rounded-3xl border ${isPickedUp ? "border-slate-200 bg-slate-50/50" : "border-green-300 shadow-xl shadow-green-700/10"
+                    } p-6 flex flex-col justify-between transition-all`}
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
@@ -378,9 +467,8 @@ export function StudentPortal() {
                         <img src={meal?.image || "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=200"} alt="food" className="w-full h-full object-cover" />
                       </div>
                       <div>
-                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                          isPickedUp ? "bg-slate-200 text-slate-700" : "bg-green-100 text-green-800 border border-green-300 animate-pulse"
-                        }`}>
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${isPickedUp ? "bg-slate-200 text-slate-700" : "bg-green-100 text-green-800 border border-green-300 animate-pulse"
+                          }`}>
                           {isPickedUp ? "✔ Complete & Enjoyed" : "⏳ Active Reservation"}
                         </span>
                         <h3 className="font-black text-lg text-slate-900 mt-1">{meal?.name || "Surplus Meal"}</h3>
@@ -450,7 +538,7 @@ export function StudentPortal() {
               <span className="bg-amber-400/30 text-amber-100 text-xs font-extrabold px-3 py-1 rounded-full uppercase border border-amber-300/40">
                 ⭐ ZeroBite Eco Points Program
               </span>
-              <h2 className="text-3xl font-black tracking-tight">You are a "Waste Warrior" Level 3</h2>
+              <h2 className="text-3xl font-black tracking-tight">You are a &quot;Waste Warrior&quot; Level 3</h2>
               <p className="text-sm text-amber-100 max-w-lg leading-relaxed">
                 Every surplus meal you reserve earns you 25 Eco Points and prevents approx. 0.8kg of CO₂ emissions. Climb the Campus Sustainability Leaderboard to unlock 100% Free VIP Dining!
               </p>
@@ -480,16 +568,14 @@ export function StudentPortal() {
                 ].map((lb) => (
                   <div
                     key={lb.rank}
-                    className={`p-4 rounded-2xl flex items-center justify-between border transition ${
-                      lb.name.includes("(You)")
-                        ? "bg-green-50/80 border-green-300 shadow-sm font-black"
-                        : "bg-slate-50 border-slate-100 hover:bg-slate-100"
-                    }`}
+                    className={`p-4 rounded-2xl flex items-center justify-between border transition ${lb.name.includes("(You)")
+                      ? "bg-green-50/80 border-green-300 shadow-sm font-black"
+                      : "bg-slate-50 border-slate-100 hover:bg-slate-100"
+                      }`}
                   >
                     <div className="flex items-center gap-3">
-                      <span className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${
-                        lb.rank === 1 ? "bg-amber-400 text-black shadow-md" : lb.rank === 2 ? "bg-slate-300 text-black" : "bg-slate-200 text-slate-700"
-                      }`}>
+                      <span className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${lb.rank === 1 ? "bg-amber-400 text-black shadow-md" : lb.rank === 2 ? "bg-slate-300 text-black" : "bg-slate-200 text-slate-700"
+                        }`}>
                         #{lb.rank}
                       </span>
                       <div>
@@ -693,9 +779,8 @@ export function StudentPortal() {
                     <div
                       key={gw.id}
                       onClick={() => setPaymentMethod(gw.id)}
-                      className={`p-4 rounded-2xl border-2 cursor-pointer flex items-center justify-between transition ${
-                        isSel ? "border-green-700 bg-green-50/60 shadow-xs" : "border-slate-200 hover:bg-slate-50"
-                      }`}
+                      className={`p-4 rounded-2xl border-2 cursor-pointer flex items-center justify-between transition ${isSel ? "border-green-700 bg-green-50/60 shadow-xs" : "border-slate-200 hover:bg-slate-50"
+                        }`}
                     >
                       <div className="flex items-center gap-3">
                         <Icon className={`w-6 h-6 ${isSel ? "text-green-700" : "text-slate-500"}`} />
@@ -704,9 +789,8 @@ export function StudentPortal() {
                           <div className="text-[10px] text-slate-500 font-medium">{gw.desc}</div>
                         </div>
                       </div>
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        isSel ? "border-green-700 bg-green-700 text-white" : "border-slate-300"
-                      }`}>
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${isSel ? "border-green-700 bg-green-700 text-white" : "border-slate-300"
+                        }`}>
                         {isSel && "✔"}
                       </div>
                     </div>

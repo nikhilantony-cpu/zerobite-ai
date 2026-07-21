@@ -20,7 +20,7 @@ export function AiChatAssistant() {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: "bot",
-      text: "👋 Hello! I am your ZeroBite Food Master Companion & Advisor. Ask me anything about currently available food, surplus recommendations, shelf-life storage advice, or smart daily footfall predictions!",
+      text: "👋 Hello! I am your ZeroBite AI Food Advisor, here to help solve your campus surplus food problems. I can suggest how to:\n\n• Scan food in seconds 📸\n• Know what will expire next ⏳\n• Turn leftovers into meals 🥗\n• Reduce waste & save money 💰\n• Get personalized food advice 💡\n\nAsk me anything or click a suggestion below!",
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     },
   ]);
@@ -30,6 +30,8 @@ export function AiChatAssistant() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
+
+
 
   const submitMessage = (msgText: string) => {
     if (!msgText.trim()) return;
@@ -49,7 +51,27 @@ export function AiChatAssistant() {
       let botResponse = "";
       const lower = userMsg.toLowerCase();
 
-      if (
+      if (lower.includes("scanning") || lower.includes("scan any food") || lower.includes("scan food")) {
+        botResponse = `📸 Scan Food in Seconds: ZeroBite utilizes instant QR code verification. Tap Reserve Meal on any item, complete checkout, and a secure QR code will be generated under your My QR Reservations tab. Show it to the vendor at the counter, they scan it, and you're good to go! No lines, no cash registry delay.`;
+      } else if (lower.includes("expire next") || lower.includes("expires next") || lower.includes("expiring next") || lower.includes("expiring")) {
+        const expiringMeals = meals.filter((m) => m.availableQuantity > 0).slice(0, 3);
+        let listStr = "";
+        if (expiringMeals.length > 0) {
+          listStr = expiringMeals.map(m => `• ${m.name} - Expiry window ends at ${m.pickupWindowEnd}!`).join("\n");
+        } else {
+          listStr = "No active surplus meals listed right now.";
+        }
+        botResponse = `⏳ Know What Will Expire Next: Prioritize rescuing meals before they go to waste! Here are the active items closing soon:\n\n${listStr}\n\nReserve them now to save them from being discarded!`;
+      } else if (lower.includes("leftovers") || lower.includes("leftover")) {
+        botResponse = `🥗 Turn Leftovers into Meals: Tell me what ingredients you have in your dorm fridge (e.g. egg, rice, stale bread, veggies), and I'll suggest a creative recipe. For instance, turn rice and egg into a "Quick Egg Fried Rice", or wrap veggies in a tortilla for a "Zero-Waste Green Wrap"!`;
+      } else if (lower.includes("reduce waste") || lower.includes("save money") || lower.includes("save cash")) {
+        botResponse = `💰 Reduce Waste and Save Money: ZeroBite helps you save up to "70%" on cafeteria food while saving the planet. Every meal rescued keeps ₹50-100 in your pocket, cuts "1.25kg of CO₂", and earns you "25 Eco Points" to unlock 100% free meal passes!`;
+      } else if (lower.includes("personalized food advice") || lower.includes("personalized advice") || lower.includes("food advice") || lower.includes("storage tips") || lower.includes("personal advice")) {
+        botResponse = `💡 Personalized Food Advice: Here are my top storage recommendations for you:
+• Pastries & Sandwiches: Store in airtight containers below 4°C. Avoid refrigerating items with fresh cucumber/lettuce to prevent sogginess.
+• Cooked Rice & Biryani: Cool quickly and store in a shallow container. Always reheat thoroughly.
+Ask me about any specific ingredient!`;
+      } else if (
         lower === "hi" ||
         lower.startsWith("hi ") ||
         lower === "hello" ||
@@ -60,7 +82,7 @@ export function AiChatAssistant() {
         const availableMeals = meals.filter((m) => m.availableQuantity > 0);
         let availableNotice = "";
         if (availableMeals.length > 0) {
-          availableNotice = ` Currently we have **${availableMeals.length}** surplus meals available to rescue! Ask me *"what food is available?"* to see the full list.`;
+          availableNotice = ` Currently we have ${availableMeals.length} surplus meals available to rescue! Ask me "what food is available?" to see the full list.`;
         } else {
           availableNotice = " There are no new surplus items listed at the moment. Check back soon!";
         }
@@ -79,7 +101,7 @@ export function AiChatAssistant() {
             .map((m) => {
               const vendor = vendors.find((v) => v.id === m.vendorId);
               const vendorName = vendor ? vendor.cafeteriaName : "Cafeteria";
-              return `• **${m.name}** (${m.category}) - **₹${m.discountPrice}** (Original: ₹${m.originalPrice}) | *${m.availableQuantity}* portions remaining at *${vendorName}*`;
+              return `• ${m.name} (${m.category}) - ₹${m.discountPrice} (Original: ₹${m.originalPrice}) | ${m.availableQuantity} portions remaining at ${vendorName}`;
             })
             .join("\n");
           botResponse = `🍳 Yes, as your Food Master Companion, here are the current surplus meals available to rescue:\n\n${mealList}\n\nI highly recommend checking them out on the student portal before they run out!`;
@@ -128,6 +150,19 @@ export function AiChatAssistant() {
     }, 900);
   };
 
+  useEffect(() => {
+    const handleOpenAi = (e: Event) => {
+      const customEvent = e as CustomEvent<{ query?: string }>;
+      setIsOpen(true);
+      if (customEvent.detail?.query) {
+        submitMessage(customEvent.detail.query);
+      }
+    };
+    window.addEventListener("open-zero-bite-ai", handleOpenAi);
+    return () => window.removeEventListener("open-zero-bite-ai", handleOpenAi);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [meals, vendors]);
+
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -159,10 +194,11 @@ export function AiChatAssistant() {
       case "STUDENT":
       default:
         return [
-          "Any foods available currently?",
-          "Tomorrow's Rain Prediction?",
-          "Bakery Storage Tips",
-          "How Eco Points Work?",
+          "Scan food in seconds 📸",
+          "Know what expires next ⏳",
+          "Turn leftovers into meals 🥗",
+          "Reduce waste & save money 💰",
+          "Get personalized advice 💡",
         ];
     }
   };
