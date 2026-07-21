@@ -153,7 +153,7 @@ export function StudentPortal() {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="flex overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-5 gap-4 scrollbar-none">
           {[
             {
               title: t(language, "ai_benefit_1"),
@@ -199,7 +199,7 @@ export function StudentPortal() {
                   const event = new CustomEvent("open-zero-bite-ai", { detail: { query: b.query } });
                   window.dispatchEvent(event);
                 }}
-                className={`p-5 border rounded-2.5xl cursor-pointer hover:scale-102 hover:shadow-xs transition-all duration-300 flex flex-col justify-between space-y-3 ${b.color}`}
+                className={`p-5 border rounded-2.5xl cursor-pointer hover:scale-102 hover:shadow-xs transition-all duration-300 flex flex-col justify-between space-y-3 shrink-0 w-[260px] snap-start sm:w-auto ${b.color}`}
               >
                 <div className="flex items-center justify-between">
                   <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-xs border border-inherit">
